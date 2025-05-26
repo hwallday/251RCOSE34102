@@ -56,7 +56,7 @@ void Makesort2(Process* arr[], int size, int mode, int mode2, int time) {
     if (mode == 0 && mode2 == 0) {
         for (int i = 0;i < size - 1;i++) {
             for (int j = i + 1;j < size;j++) {
-                if ((time-arr[i]->arrtime+arr[i]->burtime)/arr[i]->burtime >(time-arr[j]->arrtime+arr[j]->burtime)/arr[j]->burtime) {
+                if ((time - arr[i]->arrtime + arr[i]->burtime) / arr[i]->burtime > (time - arr[j]->arrtime + arr[j]->burtime) / arr[j]->burtime) {
                     Process* temp = arr[j];
                     arr[j] = arr[i];
                     arr[i] = temp;
@@ -181,7 +181,7 @@ void Makesort(Process* arr[], int size, int mode, int mode2) {
             for (int j = i + 1;j < size;j++) {
                 Process* one = arr[i];
                 Process* two = arr[j];
-                if (-one->arrtime+(one->burtime-one->extime) < -two->arrtime+(two->burtime-two->extime)) {
+                if (-one->arrtime + (one->burtime - one->extime) < -two->arrtime + (two->burtime - two->extime)) {
                     Process* temp = arr[j];
                     arr[j] = arr[i];
                     arr[i] = temp;
@@ -194,7 +194,7 @@ void Makesort(Process* arr[], int size, int mode, int mode2) {
             for (int j = i + 1;j < size;j++) {
                 Process* one = arr[i];
                 Process* two = arr[j];
-                if (-one->arrtime + (one->burtime-one->extime) > -two->arrtime + (two->burtime-two->extime)) {
+                if (-one->arrtime + (one->burtime - one->extime) > -two->arrtime + (two->burtime - two->extime)) {
                     Process* temp = arr[j];
                     arr[j] = arr[i];
                     arr[i] = temp;
@@ -366,7 +366,6 @@ void pprior(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -498,7 +497,6 @@ void psjf(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -631,7 +629,6 @@ void hrrn(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -737,7 +734,6 @@ void prior(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -843,7 +839,6 @@ void sjf(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -957,7 +952,6 @@ void roundrobin(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -1074,7 +1068,6 @@ void fcfs(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
@@ -1152,14 +1145,14 @@ void fcfs(queue* list) {
 void multiprocess(queue* list) {
     if (list->rear - list->front <= 1) {
         printf("processes should be 2 or more than 2\n");
-        return -1; 
+        return -1;
     }
     Process* cpus[10][10];
     int temp;
     do {
         printf("you can insert the number of processor (1~10)\n");
         scanf("%d", &temp);
-    } while (temp<1||temp>10);
+    } while (temp < 1 || temp>10);
     int temp1;
 
     do {
@@ -1201,27 +1194,27 @@ void multiprocess(queue* list) {
     while (1) {
         int check = 0;
         printf("isempty wait: %d isempty ready: %d\n", isEmpty(wait), isEmpty(ready));
-       
+
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
             printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
-           
+
             break;
         }
         printf("complete: %d", list->qlist[0]->completed);
         for (int i = 0;i < seqs;i++) {
-            if (list->qlist[i]->arrtime <= time&&i==0&&check1==0) {
+            if (list->qlist[i]->arrtime <= time && i == 0 && check1 == 0) {
                 enqueue(ready, list->qlist[i]);
                 check1 = 1;
             }
-            if (list->qlist[i]->arrtime <= time && i!=0 && list->qlist[i-1]->completed&&check1==i) {
+            if (list->qlist[i]->arrtime <= time && i != 0 && list->qlist[i - 1]->completed && check1 == i) {
                 enqueue(ready, list->qlist[i]);
                 check1 = i + 1;
             }
-            
+
         }
 
         for (int i = lastindex;i < rpid - 1;i++) {
@@ -1264,7 +1257,7 @@ void multiprocess(queue* list) {
                     }
                     cpus[cpu1][9] = NULL;
                 }
-           }
+            }
             else {
                 if (!isEmpty(ready)) {
                     if (cpus[cpu1][0] == NULL) {
@@ -1287,7 +1280,7 @@ void multiprocess(queue* list) {
                     }
                 }
             }
-            if (cpu1 == 9 && !isEmpty(ready)){
+            if (cpu1 == 9 && !isEmpty(ready)) {
                 while (!isEmpty(ready)) {
                     int max = 9;
                     int maxcpu = -1;
@@ -1341,7 +1334,6 @@ void agingsjf(queue* list) {
         int check = 0;
         for (int i = 0;i < rpid - 1;i++) {
             Process* test = list->qlist[i];
-            printf("remain time %d\n", test->burtime - test->extime);
             if (test->completed == 0) check = 1;
         }
         if (check == 0) {
